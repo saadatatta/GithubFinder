@@ -1,43 +1,48 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 
-export class Search extends Component {
-    state = {
-        text: ''
-    }
+const Search = props => {
 
-    static propTypes = {
-        searchUsers : PropTypes.func.isRequired
-    }
-    
-    onChange = (e) =>{
-        this.setState({[e.target.name] : e.target.value});
-    }
+  const { setAlertMessage, searchUsers } = props;
+  const [text, setText] = useState("");
 
-    onSubmit = (e) =>{
-        e.preventDefault();
-        if(this.state.text === ''){
-            this.props.setAlertMessage({
-                message: 'Search field cannot be empty.',
-                type: 'danger'
-            });
-        }
-        else{
-            this.props.searchUsers(this.state.text);
-            this.setState({text: ''});
-        }
-    }
+  const onChange = e => {
+    setText(e.target.value);
+  };
 
-    render() {
-        return (
-            <div>
-                <form className="form" onSubmit={this.onSubmit}>
-                    <input type="text" name="text" placeholder="Search User" value={this.state.text} onChange={this.onChange}></input>
-                    <button type="submit" className="btn btn-dark btn-block" >Search</button>
-                </form>
-            </div>
-        )
+  const onSubmit = e => {
+    e.preventDefault();
+    if (text === "") {
+      setAlertMessage({
+        message: "Search field cannot be empty.",
+        type: "danger"
+      });
+    } else {
+      searchUsers(text);
+      setText("");
     }
-}
+  };
 
-export default Search
+  return (
+    <div>
+      <form className="form" onSubmit={onSubmit}>
+        <input
+          type="text"
+          name="text"
+          placeholder="Search User"
+          value={text}
+          onChange={onChange}
+        ></input>
+        <button type="submit" className="btn btn-dark btn-block">
+          Search
+        </button>
+      </form>
+    </div>
+  );
+};
+
+Search.propTypes = {
+  searchUsers: PropTypes.func.isRequired
+};
+
+export default Search;
