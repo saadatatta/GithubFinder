@@ -13,7 +13,6 @@ import AlertState from "./context/alert/AlertState";
 
 const App = props => {
   const [users, setUsers] = useState([]);
-  const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
